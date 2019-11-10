@@ -1,12 +1,26 @@
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
 metadata:
-  name: tomcat
-  labels:
-    app: tomcat
+  name: Mywebapp-deployment
 spec:
-  containers:
-    - name: tomcat
-      image: kiranmoluguri/kiran_1234:my-app-latest
-      ports:
+  selector:
+    matchLabels:
+      app: Mywebapp-project
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+
+  template:
+    metadata:
+      labels:
+        app: Mywebapp-project
+    spec:
+      containers:
+      - name: Mywebapp-project
+        image: kiranmoluguri/kiran_1234:my-app-latest
+        imagePullPolicy: Always
+        ports:
         - containerPort: 8080
