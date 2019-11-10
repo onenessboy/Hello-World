@@ -1,26 +1,34 @@
-apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
-kind: Deployment
+apiVersion: v1
+kind: ReplicationController
 metadata:
-  name: Mywebapp-deployment
+  labels:
+    name: Myweb-app
+  name: Myweb-app-controller
 spec:
-  selector:
-    matchLabels:
-      app: Mywebapp-project
-  replicas: 2 # tells deployment to run 2 pods matching the template
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-
+  replicas: 1
   template:
     metadata:
       labels:
-        app: Mywebapp-project
+        name: Myweb-app
     spec:
       containers:
-      - name: Mywebapp-project
-        image: kiranmoluguri/kiran_1234:my-app-latest
-        imagePullPolicy: Always
+      - image: kiranmoluguri/kiran_1234:my-app-latest
+        name: Myweb-app
         ports:
-        - containerPort: 80
+        - name: Myweb-app
+          containerPort: 8080      
+---
+# Node Port Service
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: Myweb-app
+  name: Myweb-app
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    name: Myweb-app
