@@ -2,20 +2,20 @@ apiVersion: v1
 kind: ReplicationController
 metadata:
   labels:
-    name: Myweb-app
-  name: Myweb-app-controller
+    name: myweb-app
+  name: myweb-app-controller
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        name: Myweb-app
+        name: myweb-app
     spec:
       containers:
       - image: kiranmoluguri/kiran_1234:my-app-latest
-        name: Myweb-app
+        name: myweb-app
         ports:
-        - name: Myweb-app
+        - name: myweb-app
           containerPort: 8080      
 ---
 # Node Port Service
@@ -23,12 +23,12 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    name: Myweb-app
-  name: Myweb-app
+    name: myweb-app
+  name: myweb-app
 spec:
   type: NodePort
   ports:
     - port: 8080
       targetPort: 8080
   selector:
-    name: Myweb-app
+    name: myweb-app
