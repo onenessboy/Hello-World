@@ -1,23 +1,15 @@
-FROM ubuntu:14.04
+FROM ubuntu:18.04
 
-# Install.
-RUN \
-  sed -i 's/# \(.*multiverse$\)/\1/g' /etc/apt/sources.list && \
-  apt-get update && \
-  apt-get install -y curl man unzip vim wget && \
-  apt-get install -y httpd
-  
-  rm -rf /var/lib/apt/lists/*
+MAINTAINER kiran M
 
-# Add files.
-ADD root/.bashrc /root/.bashrc
-ADD root/.gitconfig /root/.gitconfig
-ADD root/.scripts /root/.scripts
 
-# Set environment variables.
-ENV HOME /root
+RUN apt-get update && apt-get install -y apache2 && apt-get clean
 
-# Define working directory.
-WORKDIR /root
+ENV APACHE_RUN_USER www-data
+ENV APACHE_RUN_GROUP www-data
+ENV APACHE_LOG_DIR /var/log/apache2
 
-COPY ./index.html /var/www/html/
+EXPOSE 80
+
+COPY index.html /var/www/html
+CMD ["/usr/sbin/apache2", "-D", "FOREGROUND"]
