@@ -1,3 +1,7 @@
 docker run -d --name devcontainer -v /sys/fs/cgroup:/sys/fs/cgroup:ro -p 80:80 dockercentoshtml
 
 docker run --privileged --name devcontainer -v /sys/fs/cgroup:/sys/fs/cgroup:ro -p 80:80 -d dockercentoshtml
+
+ docker tag 2d767a44328c kiranmoluguri/dockercentoshtml:Mywebserver
+ 
+ docker push kiranmoluguri/dockercentoshtml
