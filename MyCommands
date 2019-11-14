@@ -1,6 +1,4 @@
-docker run -d --name devcontainer -v /sys/fs/cgroup:/sys/fs/cgroup:ro -p 80:80 dockercentoshtml
-
-docker run --privileged --name devcontainer -v /sys/fs/cgroup:/sys/fs/cgroup:ro -p 80:80 -d dockercentoshtml
+docker run -d --name webcontainer-ubuntu -p 80:80 webserver-ubuntu
 
  docker tag 2d767a44328c kiranmoluguri/dockercentoshtml:Mywebserver
  
