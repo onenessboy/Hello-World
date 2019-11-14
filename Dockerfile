@@ -1,11 +1,9 @@
-FROM centos:8
+FROM ubuntu:18.10
 
-RUN yum -y install httpd; yum clean all; systemctl enable httpd.service
-
+RUN apt-get update && apt-get -y install apache2
 EXPOSE 80
 
-CMD ["/usr/sbin/init"]
-
-
-COPY ./Sample.html /var/www/html/
+ENTRYPOINT ["/usr/sbin/apachectl"]
+CMD ["-D", "FOREGROUND"]
+COPY index.html /var/www/html/index.html
 
