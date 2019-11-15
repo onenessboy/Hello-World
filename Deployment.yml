@@ -24,13 +24,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    name: mywebapp
-  name: mywebapp
+  name: mywebapp-service
 spec:
-  type: Loadbalancer
-  ports:
-    - port: 27017
-      targetPort: 27017
   selector:
-    name: mywebapp
+    app: MywebApp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9376
+    type: LoadBalancer
+
