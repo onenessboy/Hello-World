@@ -12,7 +12,7 @@ spec:
         name: mywebserver
     spec:
       containers:
-      - image: kiranmoluguri/kiran_1234:my-app-latest
+      - image: kiranmoluguri/kiran_1234:mywebserver01
         name: mywebserver
         ports:
         - name: mywebserver
@@ -26,9 +26,9 @@ metadata:
     name: mywebserver
   name: mywebserver
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
-    - port: 8080
-      targetPort: 8080
+    - port: 31000
+      targetPort: 31000
   selector:
     name: mywebserver
