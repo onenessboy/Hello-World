@@ -5,7 +5,7 @@ metadata:
   labels:
     app: html
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: html
@@ -20,16 +20,17 @@ spec:
         ports:
         - containerPort: 80
 ---
-# Node Port Service
+# Loadbalancer Port Service
 apiVersion: v1
 kind: Service
 metadata:
-  name: mywebserver01
-  namespace: development
+  labels:
+    name: mywebapp
+  name: mywebapp
 spec:
+  type: Loadbalancer
   ports:
-    - name: http
-      port: 8081
-  type: LoadBalancer    
+    - port: 27017
+      targetPort: 27017
   selector:
-    apps: mywebserver01
+    name: mywebapp
