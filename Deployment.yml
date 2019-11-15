@@ -16,7 +16,7 @@ spec:
         name: mywebserver
         ports:
         - name: mywebserver
-          containerPort: 8080      
+          containerPort: 8080
 ---
 # Node Port Service
 apiVersion: v1
