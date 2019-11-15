@@ -16,7 +16,7 @@ spec:
         name: my-webapp
         ports:
         - name: my-webapp
-          containerPort: 8080      
+          containerPort: 80      
 ---
 # Node Port Service
 apiVersion: v1
@@ -28,7 +28,7 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - port: 8080
-      targetPort: 8080
+    - port: 80
+      targetPort: 80
   selector:
     name: my-webapp
