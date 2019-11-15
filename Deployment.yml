@@ -3,6 +3,7 @@ kind: pod
 metadata:
   labels:
     name: mywebserver-app01
+   name: mywebserver-ctl01
   spec:
    containers:
    - image: kiranmoluguri/kiran_1234:mywebserver01
