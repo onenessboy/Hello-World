@@ -1,34 +1,33 @@
-apiVersion: v1
-kind: ReplicationController
+apiVersion: apps/v1beta1
+kind: Deployment
 metadata:
+  name: mywebserver02
+  namespace: development
   labels:
-    name: my-webapp
-  name: my-webapp-controller
+    app: mywebserver02-app
 spec:
-  replicas: 1
+  replicas: 4
   template:
     metadata:
       labels:
-        name: my-webapp
+        apps: mywebserver02
     spec:
       containers:
-      - image: kiranmoluguri/kiran_1234:mywebserver01
-        name: my-webapp
+      - name: mywebserver02
+        image: kiranmoluguri/kiran_1234:mywebserver01
         ports:
-        - name: my-webapp
-          containerPort: 80      
+        - containerPort: 8081
 ---
 # Node Port Service
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    name: my-webapp
-  name: my-webapp
+  name: mywebserver02
+  namespace: development
 spec:
-  type: NodePort
   ports:
-    - port: 80
-      targetPort: 80
+    - name: http
+      port: 8081
+  type: LoadBalancer    
   selector:
-    name: my-webapp
+    apps: mywebserver02
