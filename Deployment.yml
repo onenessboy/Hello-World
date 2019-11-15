@@ -24,13 +24,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mywebapp-service
+  name: mywebapp-deployment-service
 spec:
   selector:
-    app: MywebApp
+    app: html
   ports:
-    - protocol: TCP
       port: 80
-      targetPort: 9376
+      targetPort: 31200
     type: LoadBalancer
 
