@@ -19,18 +19,3 @@ spec:
         image: kiranmoluguri/kiran_1234:mywebserver01
         ports:
         - containerPort: 80
----
-# Loadbalancer Port Service
-apiVersion: v1
-kind: Service
-metadata:
-  name: mywebapp-deployment-service
-spec:
-  type: LoadBalancer
-  ports:
-    - port: 80
-      targetPort: 31200
-
-
-    
-
