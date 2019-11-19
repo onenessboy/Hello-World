@@ -1,5 +1,8 @@
 docker run -d --name webcontainer-ubuntu -p 80:80 webserver-ubuntu
 
+kubectl expose deployment nginx --type=NodePort --name=nginx-site
+
+kubeadm init --pod-network-cidr=172.31.0.0/20 --apiserver-advertise-address=15.206.80.36
  docker tag 2d767a44328c kiranmoluguri/dockercentoshtml:Mywebserver
  
  docker push kiranmoluguri/dockercentoshtml
