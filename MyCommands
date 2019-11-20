@@ -1,11 +1,20 @@
 docker run -d --name webcontainer-ubuntu -p 80:80 webserver-ubuntu
+docker tag 2d767a44328c kiranmoluguri/dockercentoshtml:Mywebserver
+docker push kiranmoluguri/dockercentoshtml
 
+kubeadm init --pod-network-cidr=172.31.0.0/20
+
+kubeadm init --pod-network-cidr=10.244.0.0/16
+
+iptables-save | grep nginx-site
+
+journalctl -b -u kubelet -l --no-pager | grep -i hairp
+
+--apiserver-advertise-address=15.206.80.36
 kubectl expose deployment nginx --type=NodePort --name=nginx-site
 
 kubeadm init --pod-network-cidr=172.31.0.0/20 --apiserver-advertise-address=15.206.80.36
- docker tag 2d767a44328c kiranmoluguri/dockercentoshtml:Mywebserver
- 
- docker push kiranmoluguri/dockercentoshtml
+
 
 apiVersion: apps/v1
 kind: Deployment
