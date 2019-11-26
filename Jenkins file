@@ -1,29 +1,27 @@
 node{
-   
-    stage('SCM Checkout'){
-        git credentialsId: 'GIT_CREDENTIALS', url:  'https://github.com/kiran1812/Hello-World'
+    stage('Get code from GitHub'){
+        git credentialsId: 'GitHubCredentials', url: 'https://github.com/kiran1812/Hello-World.git'
     }
-   
-    stage('Build Docker Image'){
-        sh 'docker build -t kiranmoluguri/kiran_1234:my-app-latest .'
+    stage('Build Docker Image') {
+        sh 'docker build -t kiranmoluguri/kiran_1234:nginxserver .'
     }
-
-    stage('Push Docker Image'){
-        withCredentials([string(credentialsId: 'DOKCER_HUB_PASSWORD', variable: 'DOKCER_HUB_PASSWORD')]) {
-          sh "docker login -u dockerhandson -p ${DOKCER_HUB_PASSWORD}"
-        }
-        sh 'docker push kiranmoluguri/kiran_1234:my-app-latest'
-     }
-     
-     stage("Deploy To Kuberates Cluster"){
-       kubernetesDeploy(
-         configs: 'Deployment.yml',
-         kubeconfigId: 'KUBERNATES_CONFIG',
-        )
-     }
- /**
-      stage("Deploy To Kuberates Cluster"){
-        sh 'kubectl apply -f service.yml'
-      } **/
-     
-}
+     stage('Push Docker Image to DockerHub'){
+        withCredentials([string(credentialsId: 'DockerLoginPassword', variable: 'DockerLoginPassword')]) {
+          sh "docker login -u kiranmoluguri -p ${DockerLoginPassword}"
+      } 
+      sh 'docker push kiranmoluguri/kiran_1234:nginxserver'
+    } 
+    stage('Deploy Application To Kuberates Cluster') {
+     kubernetesDeploy(
+	 configs: 'Deployment.yml',
+	 kubeconfigId: 'Kubernetes_Config',
+	 enableConfigSubstitution: true
+	 )
+    }
+     stage('Deploy To Kuberates Cluster') {
+     kubernetesDeploy(
+	 configs: 'Service.yml',
+	 kubeconfigId: 'Kubernetes_Config'
+	 )
+    }
+} 
