@@ -8,12 +8,24 @@ jobs:
     
     steps:
       - checkout
-      - run: az login --service-principal -u $spid -p $spkey --tenant $tenantid
-      - run: az group create --location $region --name $terraformstoragerg
-      - run: az storage account create --name $terraformstorageaccount --resource-group $terraformstoragerg --location $region --sku Standard_LRS
-      - run: az storage container create --name terraform --account-name $terraformstorageaccount
-      - run: $key=(Get-AzureRmStorageAccountKey -ResourceGroupName $terraformstoragerg -AccountName $terraformstorageaccount).Value[0];
-      - run: Write-Host "##vso[task.setvariable variable=storagekey]$key"
+      - run: 
+          name: access subscription
+          command: az login --service-principal -u $spid -p $spkey --tenant $tenantid
+      - run: 
+          name: creating terraform remote backend resourcegroup
+          command: az group create --location $region --name $terraformstoragerg
+      - run: 
+          name: creating storage account for terraform state
+          command: az storage account create --name $terraformstorageaccount --resource-group $terraformstoragerg --location $region --sku Standard_LRS
+      - run: 
+          name: creating a container for tf state
+          command: az storage container create --name terraform --account-name $terraformstorageaccount
+      - run: 
+          name: getting storage keys to validate tf file
+          command: $key=(Get-AzureRmStorageAccountKey -ResourceGroupName $terraformstoragerg -AccountName $terraformstorageaccount).Value[0];
+      - run: 
+          name: storing keys for further steps
+          command: Write-Host "##vso[task.setvariable variable=storagekey]$key"
 
 workflows:
   my-workflow:
