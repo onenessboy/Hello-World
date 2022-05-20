@@ -9,8 +9,8 @@ jobs:
     steps:
       - checkout
       - run:
-          # name: "Check docker"
-          # shell: powershell.exe
+          name: "Terrform Remote Backend Setup"
+          shell: powershell.exe
           command: |
             az login --service-principal -u $spid -p $spkey --tenant $tenantid
             az group create --location $(region) --name $(terraformstoragerg)
