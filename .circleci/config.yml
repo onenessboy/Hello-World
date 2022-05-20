@@ -1,9 +1,6 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine.
-# See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
+
 jobs:
   self-hosted-agent-test:
     machine: true
@@ -11,16 +8,21 @@ jobs:
     
     steps:
       - checkout
-      - run: az login --service-principal -u $spid -p $spkey --tenant $tenantid
-      - run: az resource list
+      - run:
+          # name: "Check docker"
+          # shell: powershell.exe
+          command: |
+            az login --service-principal -u $spid -p $spkey --tenant $tenantid
+            az group create --location $(region) --name $(terraformstoragerg)
+            az storage account create --name $(terraformstorageaccount) --resource-group $(terraformstoragerg) --location $(location) --sku Standard_LRS
+            az storage container create --name terraform --account-name $(terraformstorageaccount)
+            az storage account keys list -g $(terraformstoragerg) -n $(terraformstorageaccount)
+            $key=(Get-AzureRmStorageAccountKey -ResourceGroupName $(terraformstoragerg) -AccountName $(terraformstorageaccount)).Value[0]
+            Write-Host "##vso[task.setvariable variable=storagekey]$key"
   
-
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
   my-workflow:
     jobs:
       - self-hosted-agent-test:
           context:
             - ab-synpase
-
