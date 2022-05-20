@@ -13,11 +13,11 @@ jobs:
           shell: powershell.exe
           command: |
             az login --service-principal -u $spid -p $spkey --tenant $tenantid
-            az group create --location $(region) --name $(terraformstoragerg);
-            az storage account create --name $(terraformstorageaccount) --resource-group $(terraformstoragerg) --location $(location) --sku Standard_LRS;
-            az storage container create --name terraform --account-name $(terraformstorageaccount);
-            az storage account keys list -g $(terraformstoragerg) -n $(terraformstorageaccount);
-            $key=(Get-AzureRmStorageAccountKey -ResourceGroupName $(terraformstoragerg) -AccountName $(terraformstorageaccount)).Value[0];
+            az group create --location $(region) --name $(terraformstoragerg)
+            az storage account create --name $(terraformstorageaccount) --resource-group $(terraformstoragerg) --location $(location) --sku Standard_LRS
+            az storage container create --name terraform --account-name $(terraformstorageaccount)
+            az storage account keys list -g $(terraformstoragerg) -n $(terraformstorageaccount)
+            $key=(Get-AzureRmStorageAccountKey -ResourceGroupName $(terraformstoragerg) -AccountName $(terraformstorageaccount)).Value[0]
             Write-Host "##vso[task.setvariable variable=storagekey]$key";
   
 workflows:
