@@ -22,9 +22,11 @@ jobs:
           command: az storage container create --name terraform --account-name $terraformstorageaccount
       - run: 
           name: getting storage keys to validate tf file
+          shell: powershell.exe
           command: $key=(Get-AzureRmStorageAccountKey -ResourceGroupName $terraformstoragerg -AccountName $terraformstorageaccount).Value[0])
       - run: 
           name: storing keys for further steps
+          shell: powershell.exe
           command: Write-Host "##vso[task.setvariable variable=storagekey]$key"
 
 workflows:
