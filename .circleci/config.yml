@@ -21,7 +21,7 @@ jobs:
       - run:
           name: connecting to account
           shell: powershell.exe
-          command: Connect-AzAccount  --tenant $tenantid --$subid
+          command: Connect-AzAccount -Tenant $tenantid -SubscriptionId $subid
       - run: 
           name: getting storage keys to validate tf file
           shell: powershell.exe
