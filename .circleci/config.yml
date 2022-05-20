@@ -1,6 +1,4 @@
 version: 2.1
-
-
 jobs:
   self-hosted-agent-test:
     machine: true
@@ -20,18 +18,30 @@ jobs:
       - run: 
           name: creating a container for tf state
           command: az storage container create --name terraform --account-name $terraformstorageaccount
+      - run:
+          name: connecting to account
+          command: Connect-AzAccount --service-principal -u $spid -p $spkey --tenant $tenantid
       - run: 
           name: getting storage keys to validate tf file
           shell: powershell.exe
           command: $key=(Get-AzStorageAccountKey -ResourceGroupName $terraformstoragerg -AccountName $terraformstorageaccount)[0].Value
-      - run: 
-          name: storing keys for further steps
-          shell: powershell.exe
-          command: Write-Host "##vso[task.setvariable variable=storagekey]$key"
-
+      #- run: 
+          #name: storing keys for further steps
+          #shell: powershell.exe
+          #command: Write-Host "##vso[task.setvariable variable=storagekey]$key"
+  # self-hosted-agent-test1:
+  #   machine: true
+  #   resource_class: onenessboy/devops-self-hosted-agent    
+  #   steps:
+  #     - checkout
+  #     - run: 
+  #         name: Storage key persistance check
+  #         shell: powershell.exe
+  #         command: Write-Host $key
 workflows:
   my-workflow:
     jobs:
       - self-hosted-agent-test:
           context:
             - ab-synpase
+      # - self-hosted-agent-test1
