@@ -10,7 +10,7 @@ jobs:
       - checkout
       - run: az login --service-principal -u $spid -p $spkey --tenant $tenantid
       - run: az group create --location $region --name $terraformstoragerg
-      - run: az storage account create --name $terraformstorageaccount --resource-group $terraformstoragerg --location $location --sku Standard_LRS
+      - run: az storage account create --name $terraformstorageaccount --resource-group $terraformstoragerg --location $region --sku Standard_LRS
       - run: az storage container create --name terraform --account-name $terraformstorageaccount
       - run: $key=(Get-AzureRmStorageAccountKey -ResourceGroupName $terraformstoragerg -AccountName $terraformstorageaccount).Value[0];
       - run: Write-Host "##vso[task.setvariable variable=storagekey]$key"
