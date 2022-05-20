@@ -17,7 +17,7 @@ jobs:
             az storage account create --name $terraformstorageaccount --resource-group $terraformstoragerg --location $location --sku Standard_LRS
             az storage container create --name terraform --account-name $terraformstorageaccount
             az storage account keys list -g $terraformstoragerg -n $terraformstorageaccount
-            $key=(Get-AzureRmStorageAccountKey -ResourceGroupName $terraformstoragerg -AccountName $terraformstorageaccount.Value[0]
+            $key=(Get-AzureRmStorageAccountKey -ResourceGroupName $terraformstoragerg -AccountName $terraformstorageaccount).Value[0]
             Write-Host "##vso[task.setvariable variable=storagekey]$key";
   
 workflows:
