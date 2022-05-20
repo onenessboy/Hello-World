@@ -8,13 +8,19 @@ jobs:
   self-hosted-agent-test:
     machine: true
     resource_class: onenessboy/devops-self-hosted-agent
+    
     steps:
-      - run: echo "Hi I'm on Runners!"
+      - checkout
+      - run: az login --service-principal -u $spid -p $spkey --tenant $tenantid
+      - run: az az resource list
   
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  say-hello-workflow:
+  my-workflow:
     jobs:
-      - self-hosted-agent-test
+      - self-hosted-agent-test:
+          context:
+            - ab-synpase
+
