@@ -23,7 +23,7 @@ jobs:
       - run: 
           name: getting storage keys to validate tf file
           shell: powershell.exe
-          command: $key=(Get-AzureRmStorageAccountKey -ResourceGroupName $terraformstoragerg -AccountName $terraformstorageaccount).Value[0]
+          command: $key=(Get-AzStorageAccountKey -ResourceGroupName $terraformstoragerg -AccountName $terraformstorageaccount).Value[0]
       - run: 
           name: storing keys for further steps
           shell: powershell.exe
